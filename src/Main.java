@@ -1,4 +1,9 @@
 import Entities.*;
+import Auxiliary.Texts;
+import Entities.ComplexNumber.ComplexNumber;
+import Entities.ComplexNumber.ComplexNumberReader;
+import Entities.History.HistoryMaker;
+import Entities.History.HistoryTeller;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -6,10 +11,10 @@ import java.io.InputStreamReader;
 
 
 public class Main {
+    static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
     public static void main(String[] args) throws IOException {
 
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
         while (true) {
 
@@ -17,61 +22,42 @@ public class Main {
             ComplexNumberReader complexNumberReader = new ComplexNumberReader();
             HistoryMaker historyMaker = new HistoryMaker();
             HistoryTeller historyTeller = new HistoryTeller();
+            ComplexNumber mainNumber = new ComplexNumber(0, 0);
 
-            ComplexNumber mainNumber = null;
 
             while (true) {
-                if (mainNumber == null) {
-                    System.out.println("Enter complex number");
-                    mainNumber = complexNumberReader.defineComplexNumber(reader.readLine());
-                }
 
-                System.out.println("Actual value: " + mainNumber.getFullNumber());
-
-
-                System.out.println("Select an action:");
-                System.out.println("\t enter new number \n" +
-                        "\t add \n" +
-                        "\t subtract \n" +
-                        "\t multiply \n" +
-                        "\t decide \n" +
-                        "\t show history \n" +
-                        "\t show results history \n" +
-                        "\t show operands history \n" +
-                        "\t clear \n" +
-                        "\t exit \n");
+                System.out.println("Actual value: " + mainNumber.getFullNumericalNumber());
+                Texts.crossroad();
 
 
                 switch (reader.readLine()) {
-                    case ("enter new number"):
-                        System.out.println("Reset the available number?");
+                    case ("enter number"):
+                        System.out.println("please, enter number");
+                        String newNum = reader.readLine();
+                        mainNumber = complexNumberReader.defineComplexNumber(newNum);
 
-                        switch (reader.readLine()) {
-                            case ("yes"):
-                                System.out.println("enter new number");
-                                mainNumber = complexNumberReader.defineComplexNumber(reader.readLine());
-                                break;
-
-                            case ("no"):
-                                break;
-                        }
                         break;
-
 
                     case ("add"):
                         System.out.println("Enter a complex number");
-                        ComplexNumber addedNumber = complexNumberReader.defineComplexNumber(reader.readLine());
+                        String tempAdd = reader.readLine();
+
+                        ComplexNumber addedNumber = complexNumberReader.defineComplexNumber(tempAdd);
                         ComplexNumber addResult = calculator.add(mainNumber, addedNumber);
-                        historyMaker.addToHistory(mainNumber.getFullNumber(), " + ", addedNumber.getFullNumber(), addResult.getFullNumber());
+
+                        historyMaker.addToHistory(mainNumber, "+", addedNumber, addResult);
                         mainNumber = addResult;
                         break;
 
 
                     case ("subtract"):
                         System.out.println("Enter a complex number");
-                        ComplexNumber subtractedNumber = complexNumberReader.defineComplexNumber(reader.readLine());
+                        String tempSub = reader.readLine();
+
+                        ComplexNumber subtractedNumber = complexNumberReader.defineComplexNumber(tempSub);
                         ComplexNumber subtractResult = calculator.subtract(mainNumber, subtractedNumber);
-                        historyMaker.addToHistory(mainNumber.getFullNumber(), " - ", subtractedNumber.getFullNumber(), subtractResult.getFullNumber());
+                        historyMaker.addToHistory(mainNumber, "-", subtractedNumber, subtractResult);
                         mainNumber = subtractResult;
                         break;
 
@@ -80,7 +66,7 @@ public class Main {
                         System.out.println("Enter a complex number");
                         ComplexNumber multipliedNumber = complexNumberReader.defineComplexNumber(reader.readLine());
                         ComplexNumber multiplyResult = calculator.multiply(mainNumber, multipliedNumber);
-                        historyMaker.addToHistory(mainNumber.getFullNumber(), " * ", multipliedNumber.getFullNumber(), multiplyResult.getFullNumber());
+                        historyMaker.addToHistory(mainNumber, "*", multipliedNumber, multiplyResult);
                         mainNumber = multiplyResult;
                         break;
 
@@ -89,7 +75,7 @@ public class Main {
                         System.out.println("Enter a complex number");
                         ComplexNumber decidedNumber = complexNumberReader.defineComplexNumber(reader.readLine());
                         ComplexNumber decideResult = calculator.decide(mainNumber, decidedNumber);
-                        historyMaker.addToHistory(mainNumber.getFullNumber(), " / ", decidedNumber.getFullNumber(), decideResult.getFullNumber());
+                        historyMaker.addToHistory(mainNumber, "/", decidedNumber, decideResult);
                         mainNumber = decideResult;
                         break;
 
@@ -108,15 +94,16 @@ public class Main {
                         historyTeller.tellOperandsHistory(historyMaker);
                         break;
 
+                    case ("change the number entry type"):
+                        calculator.clickSwitch();
+                        break;
 
                     case ("clear"):
-                        System.out.println("You are sure? \n" +
-                                "The calculation history will be cleared \n" +
-                                "and the number will be deleted");
+                        Texts.warningClearingHist();
 
                         switch (reader.readLine()) {
                             case ("yes"):
-                                mainNumber = null;
+                                mainNumber = new ComplexNumber(0, 0);
                                 historyMaker.clearHistory();
                                 System.out.println("Calculation history cleared");
                                 break;
@@ -133,4 +120,5 @@ public class Main {
             }
         }
     }
+
 }
