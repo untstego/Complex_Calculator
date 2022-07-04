@@ -42,19 +42,19 @@ public class HistoryTeller {
         }
     }
 
-    public void tellAllHistory(HistoryMaker historyMaker) {
-        if (Calculator.isVectorEnable()) {
+    public void tellAllHistory(HistoryMaker historyMaker, Calculator calculator) {
+        if (calculator.isVectorEnable()) {
             tellAllVectorHistory(historyMaker);
         } else {
             tellAllNumericalHistory(historyMaker);
         }
     }
 
-    public void tellResultsHistory(HistoryMaker historyMaker) {
-        if (Calculator.isVectorEnable()) {
+    public void tellResultsHistory(HistoryMaker historyMaker, Calculator calculator) {
+        if (calculator.isVectorEnable()) {
             tellVectorResultsHistory(historyMaker);
         } else {
-            tellVectorResultsHistory(historyMaker);
+            tellNumericalResultsHistory(historyMaker);
         }
     }
 

@@ -27,7 +27,8 @@ public class Main {
 
             while (true) {
 
-                System.out.println("Actual value: " + mainNumber.getFullNumericalNumber());
+                System.out.println("Actual value: " + mainNumber.getFullNumber(calculator));
+                System.out.println("Type of writing numbers: " + (calculator.isVectorEnable() ? "vector" : "numeric") + "\n \n");
                 Texts.crossroad();
 
 
@@ -35,7 +36,7 @@ public class Main {
                     case ("enter number"):
                         System.out.println("please, enter number");
                         String newNum = reader.readLine();
-                        mainNumber = complexNumberReader.defineComplexNumber(newNum);
+                        mainNumber = complexNumberReader.defineComplexNumber(newNum, calculator);
 
                         break;
 
@@ -43,7 +44,7 @@ public class Main {
                         System.out.println("Enter a complex number");
                         String tempAdd = reader.readLine();
 
-                        ComplexNumber addedNumber = complexNumberReader.defineComplexNumber(tempAdd);
+                        ComplexNumber addedNumber = complexNumberReader.defineComplexNumber(tempAdd, calculator);
                         ComplexNumber addResult = calculator.add(mainNumber, addedNumber);
 
                         historyMaker.addToHistory(mainNumber, "+", addedNumber, addResult);
@@ -55,7 +56,7 @@ public class Main {
                         System.out.println("Enter a complex number");
                         String tempSub = reader.readLine();
 
-                        ComplexNumber subtractedNumber = complexNumberReader.defineComplexNumber(tempSub);
+                        ComplexNumber subtractedNumber = complexNumberReader.defineComplexNumber(tempSub, calculator);
                         ComplexNumber subtractResult = calculator.subtract(mainNumber, subtractedNumber);
                         historyMaker.addToHistory(mainNumber, "-", subtractedNumber, subtractResult);
                         mainNumber = subtractResult;
@@ -64,7 +65,9 @@ public class Main {
 
                     case ("multiply"):
                         System.out.println("Enter a complex number");
-                        ComplexNumber multipliedNumber = complexNumberReader.defineComplexNumber(reader.readLine());
+                        String tempMul = reader.readLine();
+
+                        ComplexNumber multipliedNumber = complexNumberReader.defineComplexNumber(tempMul, calculator);
                         ComplexNumber multiplyResult = calculator.multiply(mainNumber, multipliedNumber);
                         historyMaker.addToHistory(mainNumber, "*", multipliedNumber, multiplyResult);
                         mainNumber = multiplyResult;
@@ -73,7 +76,9 @@ public class Main {
 
                     case ("decide"):
                         System.out.println("Enter a complex number");
-                        ComplexNumber decidedNumber = complexNumberReader.defineComplexNumber(reader.readLine());
+                        String tempDec = reader.readLine();
+
+                        ComplexNumber decidedNumber = complexNumberReader.defineComplexNumber(tempDec, calculator);
                         ComplexNumber decideResult = calculator.decide(mainNumber, decidedNumber);
                         historyMaker.addToHistory(mainNumber, "/", decidedNumber, decideResult);
                         mainNumber = decideResult;
@@ -81,12 +86,12 @@ public class Main {
 
 
                     case ("show history"):
-                        historyTeller.tellAllHistory(historyMaker);
+                        historyTeller.tellAllHistory(historyMaker, calculator);
                         break;
 
 
                     case ("show results history"):
-                        historyTeller.tellResultsHistory(historyMaker);
+                        historyTeller.tellResultsHistory(historyMaker, calculator);
                         break;
 
 
@@ -115,6 +120,7 @@ public class Main {
 
 
                     case ("exit"):
+                        reader.close();
                         System.exit(0);
                 }
             }

@@ -4,7 +4,7 @@ import Entities.Calculator;
 
 public class Texts {
     public static void crossroad() {
-        System.out.println("Type of writing numbers: " + (Calculator.isVectorEnable() == true ? "vector" : "numeric") + "\n");
+
 
         System.out.println("Select an action:");
         System.out.println("\t enter number \n" +

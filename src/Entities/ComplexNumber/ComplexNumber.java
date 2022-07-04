@@ -5,11 +5,10 @@ import Entities.Calculator;
 public class ComplexNumber {
 
 
-    private double realPart;
-    private double imaginaryPart;
-    private final String imaginaryUnit = "i";
-    private String fullNumericalNumber;
-    private String fullVectorNumber;
+    private final double realPart;
+    private final double imaginaryPart;
+    private final String fullNumericalNumber;
+    private final String fullVectorNumber;
 
 
     public ComplexNumber(double realPart, double imaginaryPart) {
@@ -17,13 +16,13 @@ public class ComplexNumber {
         this.imaginaryPart = imaginaryPart;
 
         if (imaginaryPart > 0 && realPart != 0) {
-            this.fullNumericalNumber = realPart + "+" + imaginaryPart + imaginaryUnit;
+            this.fullNumericalNumber = realPart + "+" + imaginaryPart + "i";
         } else if (imaginaryPart < 0 && realPart != 0) {
-            this.fullNumericalNumber = realPart + "" + imaginaryPart + imaginaryUnit;
+            this.fullNumericalNumber = realPart + "" + imaginaryPart + "i";
         } else if (imaginaryPart == 0 && realPart != 0) {
-            this.fullNumericalNumber = String.valueOf(realPart);
-        } else if (realPart == 0) {
-            this.fullNumericalNumber = String.valueOf(imaginaryPart) + imaginaryUnit;
+            this.fullNumericalNumber = realPart + "";
+        } else {
+            this.fullNumericalNumber = imaginaryPart + "i";
         }
 
         fullVectorNumber = "(" + realPart + ", " + imaginaryPart + ")";
@@ -38,10 +37,9 @@ public class ComplexNumber {
     }
     public String getFullVectorNumber() { return fullVectorNumber; }
     public String getFullNumericalNumber() {
-        if (Calculator.isVectorEnable() == false) {
-            return fullNumericalNumber;
-        } else {
-            return fullVectorNumber;
-        }
+        return fullNumericalNumber;
+    }
+    public String getFullNumber(Calculator calculator) {
+        return calculator.isVectorEnable() ? getFullVectorNumber() : getFullNumericalNumber();
     }
 }

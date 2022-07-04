@@ -41,7 +41,6 @@ public class ComplexNumberReader {
                 imaginaryPart++;
             }
         }
-
         return new ComplexNumber(realPart, imaginaryPart);
     }
 
@@ -57,14 +56,12 @@ public class ComplexNumberReader {
         temp = workString.split(",");
         realPart = Double.parseDouble(temp[0]);
         imaginaryPart = Double.parseDouble(temp[1]);
-
         return new ComplexNumber(realPart, imaginaryPart);
     }
 
 
-    public ComplexNumber defineComplexNumber(String string) {
-
-        return Calculator.isVectorEnable() ? defineVectorComplexNumber(string) : defineNumericComplexNumber(string);
+    public ComplexNumber defineComplexNumber(String string, Calculator calculator) {
+        return  calculator.isVectorEnable() ? defineVectorComplexNumber(string) : defineNumericComplexNumber(string);
     }
 
 }
